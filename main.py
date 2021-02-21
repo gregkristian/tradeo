@@ -12,12 +12,17 @@ def get_stock_info(ticker):
 def home():
     ticker = "MSFT"
     stock_history_df = get_stock_info(ticker)
-    return render_template('index.html', ticker=ticker, tables=[stock_history_df.to_html(classes='data')], titles=stock_history_df.columns.values)
+    return render_template('home.html', ticker=ticker, tables=[stock_history_df.to_html(classes='data')], titles=stock_history_df.columns.values)
 
 # Static page
 @app.route("/about")
 def about():
-    return "<h1>About Page</h1>"
+    return render_template('about.html')
+
+# Static page
+@app.route("/market")
+def layout():
+    return render_template('market.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

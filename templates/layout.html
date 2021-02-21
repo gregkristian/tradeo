@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    {% if title %}
+        <title>Tradeo - {{ title }}</title>
+    {% else %}
+        <title>Tradeo</title>
+    {% endif %}
+</head>
+<body>
+    <div class="top">
+        <div class="nav">
+            <a class="logo">Tradeo</a>
+            <a class="active" href="/">Home</a>
+            <a href="/market">Market</a>
+            <a href="/about">About</a>
+        </div>
+    </div>
+    <div class="content">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>
