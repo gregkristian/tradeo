@@ -4,9 +4,11 @@
         <title>Tradeo!</title>
     </head>
     <body>
-        {% for post in posts %}
-            <h1>{{ post.title}}</h1>
-            <p>{{ post.content }}</p>
+        <br>
+        <h1>Ticker: {{ticker}}</h1>
+        {% for table in tables %}
+            {{titles[loop.index]}}
+            {{ table|safe }}
         {% endfor %}
     </body>
 </html>
