@@ -1,5 +1,9 @@
 {% extends "layout.html" %}
 {% block content %}
     <h1>Market Update</h1>
-    Still empty :(((
+    <h2>Ticker: {{ticker}}</h2>
+    {% for table in tables %}
+        {{titles[loop.index]}}
+        {{ table|safe }}
+    {% endfor %}
 {% endblock content %}
