@@ -35,6 +35,12 @@ body {
   font-weight:bold;
 }
 
+.nav a.logo:hover {
+  background-color: #3a853d;
+  color: white;
+  font-weight:bold;
+}
+
 .content {
   margin: auto;
   width: 60%;

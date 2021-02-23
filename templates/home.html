@@ -1,11 +1,29 @@
 {% extends "layout.html" %}
 {% block content %}    
-    <h1>Search for stock</h1>
-    <div class="form-group">
-        {{ form.ticker.label(class="form-control-label") }}
-        {{ form.ticker(class="form-control form-control-lg") }}
-    </div>
-    <div class="form-group">
-        {{ form.submit(class="btn btn-outline-info") }}
-    </div>
+    <h1>Welcome!</h1>
+
+    <form method="POST" action="">
+        {{ form.hidden_tag() }}
+        <fieldset class="form-group">
+            <legend>Search for stock</legend>    
+            {{ form.ticker.label() }}    
+            {{ form.ticker() }}
+            {{ form.submit() }}
+        </fieldset>
+        
+    </form>
+
+    <!-- If user has selected ticker to show -->
+    {% if ticker %}
+        {%if not is_ticker_found %}
+            <h2>Ticker {{ ticker }} not found</h2>
+        {% else %}
+            <h2>Ticker: {{ ticker }} </h2>
+            {% for table in tables %}
+                {{titles[loop.index]}}
+                {{ table|safe }}
+            {% endfor %}
+        {% endif %}
+    {% endif %}
+
 {% endblock content %}
