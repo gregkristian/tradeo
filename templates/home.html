@@ -20,9 +20,12 @@
         {% else %}
             <h2>Ticker: {{ ticker }} </h2>
             {% for table in tables %}
-                {{titles[loop.index]}}
+                {{ titles[loop.index] }}
                 {{ table|safe }}
             {% endfor %}
+
+            <h2>Daily closing price:</h2>
+            <img src="{{ url_for('fig', ticker = ticker) }}" alt="Image Placeholder" height="400">
         {% endif %}
     {% endif %}
 
