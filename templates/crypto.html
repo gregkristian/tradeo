@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+{% block content %}
+    <form method="POST" action="">
+        {{ form.hidden_tag() }}
+        <fieldset class="form-group">
+            <legend>Search for crypto</legend>
+            {{ form.crypto.label() }}
+            {{ form.crypto() }}
+            {{ form.submit() }}
+        </fieldset>
+    </form>
+
+    <!-- If user has selected ticker to show -->
+    {% if crypto %}
+        {%if not is_data_found %}
+            <h2>Crypto {{ crypto }} not found</h2>
+        {% else %}
+            <h2>Crypto: {{ crypto }} </h2>
+
+            <!-- Chart -->
+            <!-- <h2> Close price:</h2> -->
+
+        {% endif %}
+    {% endif %}
+
+{% endblock content %}
