@@ -1,5 +1,6 @@
-venv/
 .vscode/
+venv/
 
 .idea
 __pycache__
+*.ignore

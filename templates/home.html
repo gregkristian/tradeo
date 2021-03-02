@@ -1,16 +1,15 @@
 {% extends "layout.html" %}
-{% block content %}    
+{% block content %}
     <h1>Welcome!</h1>
 
     <form method="POST" action="">
         {{ form.hidden_tag() }}
         <fieldset class="form-group">
-            <legend>Search for stock</legend>    
-            {{ form.ticker.label() }}    
+            <legend>Search for stock</legend>
+            {{ form.ticker.label() }}
             {{ form.ticker() }}
             {{ form.submit() }}
         </fieldset>
-        
     </form>
 
     <!-- If user has selected ticker to show -->
@@ -19,13 +18,16 @@
             <h2>Ticker {{ ticker }} not found</h2>
         {% else %}
             <h2>Ticker: {{ ticker }} </h2>
+
+            <!-- Chart -->
+            <h2>Daily close price:</h2>
+            <img src="{{ url_for('fig', ticker = ticker) }}" alt="Image Placeholder" height="400" width="800">
+
+            <!-- Table -->
             {% for table in tables %}
                 {{ titles[loop.index] }}
                 {{ table|safe }}
             {% endfor %}
-
-            <h2>Daily closing price:</h2>
-            <img src="{{ url_for('fig', ticker = ticker) }}" alt="Image Placeholder" height="400">
         {% endif %}
     {% endif %}
 
