@@ -2,18 +2,29 @@ from flask import Flask, render_template, url_for, redirect, send_file
 from forms import TickerForm, CryptoForm
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
+from binance.client import Client as BinanceClient
 import random
+import sys
 
 from util import *
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'purupurupurupuru'
 
+if (len(sys.argv) != 2):
+    sys.exit('Error: wrong number of arg. Expect 1 for key')
+else:
+    keyfile = sys.argv[1]
+
+    with open(keyfile, "r") as file:
+        KEYS = file.read().splitlines()
+
+    client = BinanceClient(KEYS[0], KEYS[1])
+
 # Page based on template
 @app.route("/", methods=['GET', 'POST'])
 def home():
     form = TickerForm()
-
     if form.validate_on_submit():
         stock_history_df = get_stock_history(form.ticker.data)
         is_ticker_found = not(stock_history_df.empty)
@@ -44,7 +55,12 @@ def crypto():
         # is_data_found = not(data.empty)
         is_data_found = True
 
-        crpyto_chart = create_plot([3,1,5,1])
+        klines = client.get_historical_klines(form.crypto.data,
+                                              client.KLINE_INTERVAL_30MINUTE, "1 day ago UTC")
+
+        close_price = [int(float(el[4])) for el in klines]
+
+        crpyto_chart = create_plot(close_price)
 
         return render_template('crypto.html',
                                 form=form, crypto=form.crypto.data,

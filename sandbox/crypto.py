@@ -18,6 +18,6 @@ klines = client.get_historical_klines("BTCUSDT", Client.KLINE_INTERVAL_30MINUTE,
 
 close_price = [int(float(el[4])) for el in klines] # get 4th element (close price) from each kline. Ignore the cents
 
-plt.plot(close_price)
-plt.savefig("plot.png")
+# plt.plot(close_price)
+# plt.savefig("plot.png")
 

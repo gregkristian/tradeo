@@ -13,7 +13,6 @@ def get_stock_history(ticker):
 # Create a plot from 1 dimensional list, return image url
 # TODO accept panda dataframe instead
 def create_plot(data):
-    print(data)
     fig = Figure()
     subplot = fig.subplots()
     subplot.plot(data)
