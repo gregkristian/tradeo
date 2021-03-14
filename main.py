@@ -51,8 +51,6 @@ def crypto():
     form = CryptoForm()
 
     if form.validate_on_submit():
-        # data = [1,3,5,7]
-        # is_data_found = not(data.empty)
         is_data_found = True
 
         klines = client.get_historical_klines(form.crypto.data,
@@ -81,6 +79,14 @@ def market():
     return render_template('market.html',
                             ticker=ticker,
                             tables=[stock_history_df.to_html(classes='data')], titles=stock_history_df.columns.values)
+
+# Dev for sandbox
+@app.route("/dev")
+def dev():
+    return render_template('dev.html',
+                            img1=url_for('static', filename = 'img1.png'),
+                            img2=url_for('static', filename = 'img2.png'),
+                            img3=url_for('static', filename = 'img3.png'))
 
 if __name__ == '__main__':
     app.run(debug=True)
