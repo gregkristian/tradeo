@@ -1,5 +1,8 @@
 {% extends "layout.html" %}
 {% block content %}
+<script src="https://d3js.org/d3.v7.min.js"></script>
+
+<script src="{{ url_for('static', filename='chart.js') }}"></script>
     <h1>Welcome!</h1>
 
     <form method="POST" action="">
@@ -21,13 +24,19 @@
 
             <!-- Chart -->
             <h2>Daily close price:</h2>
+            <div id='priceValues' data-pricelist='{{close_price_list|tojson}}''></div>
+            {% for x in close_price_list %}
+                {{ x }}
+            {% endfor %}
+            <div id="my_dataviz"></div>
+
             <img src="{{ image_file }}" alt="Image Placeholder" height="400" width="800">
 
             <!-- Table -->
-            {% for table in tables %}
+            <!-- {% for table in tables %}
                 {{ titles[loop.index] }}
                 {{ table|safe }}
-            {% endfor %}
+            {% endfor %} -->
         {% endif %}
     {% endif %}
 
