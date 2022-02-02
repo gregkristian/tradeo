@@ -29,14 +29,11 @@ def home():
         dates_index = stock_history_df.index.tolist()
         dates = list(map(lambda x: x.to_pydatetime(), dates_index))
 
-        stock_chart = create_plot(close_prices)
-
         return render_template('home.html',
                                 form=form, ticker=form.ticker.data,
                                 is_ticker_found=is_ticker_found,
                                 close_prices=close_prices,
                                 dates=dates,
-                                image_file=stock_chart,
                                 tables=[stock_history_df.to_html(classes='data')], titles=stock_history_df.columns.values)
 
     return render_template('home.html', form=form, ticker=form.ticker.data)
@@ -57,11 +54,8 @@ def crypto():
 
         close_price = [int(float(el[4])) for el in klines]
 
-        crpyto_chart = create_plot(close_price)
-
         return render_template('crypto.html',
                                 form=form, crypto=form.crypto.data,
-                                image_file=crpyto_chart,
                                 is_data_found=is_data_found)
 
     return render_template('crypto.html', form=form, crypto=form.crypto.data) """
