@@ -1,6 +1,10 @@
+// Line charting tool
+// y: values
+// x: dates
+
 document.addEventListener("DOMContentLoaded", function () {
-    var values = JSON.parse(document.getElementById('priceValues').dataset.pricelist);
-    console.log(values)
+    var y_values = JSON.parse(document.getElementById('y_values').dataset.y_values); //
+    var x_dates = JSON.parse(document.getElementById('x_dates').dataset.x_values); //
 
     // set the dimensions and margins of the graph
     var margin = { top: 20, right: 20, bottom: 50, left: 70 },
@@ -8,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
         height = 500 - margin.top - margin.bottom;
 
     // parse the date / time
-    var parseTime = d3.timeParse("%d-%b-%y");
+    var parseTime = d3.timeParse("%a, %d %b %Y %H:%M:%S GMT");
 
     // set the ranges
     var x = d3.scaleTime().range([0, width]);
@@ -22,24 +26,23 @@ document.addEventListener("DOMContentLoaded", function () {
     // append the svg obgect to the body of the page
     // appends a 'group' element to 'svg'
     // moves the 'group' element to the top left margin
-    var svg = d3.select("body").append("svg")
+    var svg = d3.select("#stock_chart").append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
         .attr("transform",
             "translate(" + margin.left + "," + margin.top + ")");
 
-    var datePalsu = 0;
-
-    var data = values.map(function (d) {
+    // create the data
+    var data = y_values.map(function (d, index) {
         return {
-            date: datePalsu++,
+            date: parseTime(x_dates[index]),
             close: d
         };
     });
 
     // Scale the range of the data
-    x.domain(d3.extent(data, function (d) { return d.date; }));
+    x.domain(d3.extent(data, function (d) { return (d.date); }));
     y.domain([
         d3.min(data, function (d) { return d.close; }),
         d3.max(data, function (d) { return d.close; })]);
@@ -48,7 +51,10 @@ document.addEventListener("DOMContentLoaded", function () {
     svg.append("path")
         .data([data])
         .attr("class", "line")
-        .attr("d", valueline);
+        .attr("d", valueline)
+        .attr("stroke-width", 2)
+        .attr("stroke", "#0078b0")
+        .attr("fill","none");
 
     // Add the x Axis
     svg.append("g")

@@ -23,18 +23,19 @@ def home():
         is_ticker_found = not(stock_history_df.empty)
 
         stock_history_df = get_stock_history(form.ticker.data)
-        close_price = stock_history_df['Close'].tolist()
-        print(stock_history_df.dtypes)
-        #date_list = stock_history_df['Date'].tolist()
-        # TODO date not working yet. faulty dataframe?
-        # date = stock_history_df['Date'].tolist()
+        close_prices = stock_history_df['Close'].tolist()
 
-        stock_chart = create_plot(close_price)
+        # Get df index (date) with type pd Timestamp and convert to py Datetime
+        dates_index = stock_history_df.index.tolist()
+        dates = list(map(lambda x: x.to_pydatetime(), dates_index))
+
+        stock_chart = create_plot(close_prices)
 
         return render_template('home.html',
                                 form=form, ticker=form.ticker.data,
                                 is_ticker_found=is_ticker_found,
-                                close_price_list=close_price,
+                                close_prices=close_prices,
+                                dates=dates,
                                 image_file=stock_chart,
                                 tables=[stock_history_df.to_html(classes='data')], titles=stock_history_df.columns.values)
 
