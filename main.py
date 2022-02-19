@@ -1,17 +1,25 @@
+from os import environ, path
+from dotenv import load_dotenv
 from flask import Flask, render_template, url_for, redirect, send_file
 from forms import TickerForm, CryptoForm
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
 
-import random
 import sys
 
 from util import *
 # from api_client import *
 
-app = Flask(__name__)
-app.config['SECRET_KEY'] = 'purupurupurupuru'
+basedir = path.abspath(path.dirname(__file__))
+load_dotenv(path.join(basedir, '.env'))
 
+app = Flask(__name__)
+
+if "SECRET_KEY" not in environ:
+    print('Error: Flask SECRET_KEY not set. Exiting')
+    sys.exit(1)
+
+app.config['SECRET_KEY'] = environ.get('SECRET_KEY')
 
 # Page based on template
 @app.route("/", methods=['GET', 'POST'])
