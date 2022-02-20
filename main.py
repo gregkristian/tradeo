@@ -2,9 +2,6 @@ from os import environ, path
 from dotenv import load_dotenv
 from flask import Flask, render_template, url_for, redirect, send_file
 from forms import TickerForm, CryptoForm
-from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
-from matplotlib.figure import Figure
-
 import sys
 
 from util import *
@@ -28,14 +25,11 @@ def home():
     if form.validate_on_submit():
         stock_history_df = get_stock_history(form.ticker.data)
 
-        is_ticker_found = not(stock_history_df.empty)
-
-        stock_history_df = get_stock_history(form.ticker.data)
-        close_prices = stock_history_df['Close'].tolist()
-
-        # Get df index (date) with type pd Timestamp and convert to py Datetime
-        dates_index = stock_history_df.index.tolist()
-        dates = list(map(lambda x: x.to_pydatetime(), dates_index))
+        if not(stock_history_df.empty):
+            close_prices = stock_history_df['Close'].tolist()
+            # Get df index (date) with type pd Timestamp and convert to py Datetime
+            dates_index = stock_history_df.index.tolist()
+            dates = list(map(lambda x: x.to_pydatetime(), dates_index))
 
         return render_template('home.html',
                                 form=form, ticker=form.ticker.data,

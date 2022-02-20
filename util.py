@@ -1,5 +1,4 @@
 from io import BytesIO
-from matplotlib.figure import Figure
 from flask import url_for
 import yfinance as yf
 
